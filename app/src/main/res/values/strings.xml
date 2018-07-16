@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">NewsSandwich</string>
+    <string name="title_Art_fragment">Art</string>
+    <string name="title_Politics_fragment">Politics</string>
+    <string name="title_Recent_fragment">Recent</string>
+    <string name="title_sport_fragment">Sport</string>
 </resources>

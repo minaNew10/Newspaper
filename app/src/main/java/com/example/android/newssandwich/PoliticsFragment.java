@@ -18,8 +18,7 @@ public class PoliticsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.recycler_view,container,false);
-        TextView txt = v.findViewById(R.id.txtv);
-        txt.setText("pol");
+
         return v;
     }
 }

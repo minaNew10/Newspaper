@@ -12,7 +12,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     public RecyclerViewHolder(View itemView) {
         super(itemView);
-        parent = itemView.findViewById(R.id.parent);
+        parent = itemView.findViewById(R.id.item_parent);
         txtvTitle = itemView.findViewById(R.id.txtv_title);
         txtvSection = itemView.findViewById(R.id.txtv_section);
     }

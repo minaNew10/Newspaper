@@ -1,7 +1,10 @@
 package com.example.android.newssandwich;
 
-import android.content.AsyncTaskLoader;
+import android.support.v4.content.AsyncTaskLoader;
+
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -27,6 +30,7 @@ public class NewsLoader extends AsyncTaskLoader<List<ItemNews>> {
             return null;
 
         List<ItemNews> news = QueryUtils.fetchNewsList(mUrl);
+
         return news;
     }
 }

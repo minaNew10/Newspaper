@@ -1,19 +1,21 @@
 package com.example.android.newssandwich;
 
-import android.app.LoaderManager;
-import android.content.Loader;
+import android.support.v4.app.LoaderManager;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v4.content.Loader;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,39 +24,47 @@ import java.util.List;
  * Created by M on 14/07/2018.
  */
 
+
 public class ArtFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<ItemNews>> {
-    String url = "https://content.guardianapis.com/search?api-key=b70d4f5d-e00b-44c3-8d15-6c700f643073";
+    private static final String TAG = "ArtFragment";
+    String url = "https://content.guardianapis.com/artanddesign?api-key=b70d4f5d-e00b-44c3-8d15-6c700f643073";
     RecyclerView recyclerView;
     List<ItemNews> news = new ArrayList<>();
-
+    RecyclerViewAdapter recyclerViewAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.recycler_view,container,false);
-        news.add(new ItemNews("dfsdfdf","dfsdaasdf","dfadfeasdfda"));
-        news.add(new ItemNews("dfsdfdf","dfsdaasdf","dfadfeasdfda"));
-        news.add(new ItemNews("dfsdfdf","dfsdaasdf","dfadfeasdfda"));
+        recyclerViewAdapter = new RecyclerViewAdapter(getContext(),news);
         recyclerView = v.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        recyclerView.setAdapter(new RecyclerViewAdapter(getContext(),news));
+        recyclerView.setAdapter(recyclerViewAdapter);
+        getLoaderManager().initLoader(0,null,this);
         return v;
 
     }
 
+
+    @NonNull
     @Override
-    public Loader<List<ItemNews>> onCreateLoader(int id, Bundle args) {
-        return null;
+    public Loader<List<ItemNews>> onCreateLoader(int id, @Nullable Bundle args) {
+        return new NewsLoader(this.getActivity(),url);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<ItemNews>> loader, List<ItemNews> data) {
+    public void onLoadFinished(@NonNull Loader<List<ItemNews>> loader, List<ItemNews> data) {
+        if(data != null){
 
+            recyclerViewAdapter.newsFeed = data;
+        }
+
+        recyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onLoaderReset(Loader<List<ItemNews>> loader) {
+    public void onLoaderReset(@NonNull Loader<List<ItemNews>> loader) {
 
     }
 }

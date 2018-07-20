@@ -36,9 +36,7 @@ public class QueryUtils {
         } catch (IOException e) {
             Log.e(TAG, "fetchNewsList: error in closing input stream" );
         }
-
         List<ItemNews> newsList = extractFeedNewsFromJson(jsonResponse);
-
         return newsList;
 
     }
@@ -57,8 +55,10 @@ public class QueryUtils {
 
     private static String makeHTTPrequest(URL url) throws IOException {
         String jsonResponse = "";
-        if(url == null)
+
+        if(url == null){
             return jsonResponse;
+        }
         HttpURLConnection httpURLConnection = null;
         InputStream inputStream = null;
         try {
@@ -70,6 +70,7 @@ public class QueryUtils {
             if(httpURLConnection.getResponseCode() == 200){
                 inputStream = httpURLConnection.getInputStream();
                 jsonResponse = readFromInputStream(inputStream);
+
             }else {
                 Log.e(TAG, "makeHTTPrequest: error in response code" + httpURLConnection.getResponseCode() );
             }
@@ -94,7 +95,7 @@ public class QueryUtils {
         try {
             String line = bufferedInputStream.readLine();
             while (line != null){
-                stringBuilder.append(stringBuilder);
+                stringBuilder.append(line);
                 line = bufferedInputStream.readLine();
             }
         } catch (IOException e) {
@@ -104,6 +105,7 @@ public class QueryUtils {
     }
 
     private static List<ItemNews> extractFeedNewsFromJson(String jsonResponse){
+        Log.i(TAG, "extractFeedNewsFromJson: json response" + jsonResponse);
         if(TextUtils.isEmpty(jsonResponse))
             return null;
         List<ItemNews> newsList = new ArrayList<>();
@@ -114,8 +116,11 @@ public class QueryUtils {
             for (int i = 0,n=results.length(); i < n;i++) {
                 JSONObject newsObject = results.getJSONObject(i);
                 String title = newsObject.getString("webTitle");
+                Log.i(TAG, "extractFeedNewsFromJson: title"+title);
                 String url = newsObject.getString("webUrl");
+                Log.i(TAG, "extractFeedNewsFromJson: url "+url);
                 String section = newsObject.getString("sectionName");
+                Log.i(TAG, "extractFeedNewsFromJson: section "+section);
                 ItemNews itemNews = new ItemNews(title,section,url);
                 newsList.add(itemNews);
             }

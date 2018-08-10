@@ -2,6 +2,7 @@ package com.example.android.newssandwich;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,6 +41,17 @@ public class PoliticsFragment extends Fragment  implements LoaderManager.LoaderC
 
         recyclerView.setAdapter(recyclerViewAdapter);
         getLoaderManager().initLoader(0,null,this);
+        final Handler handler = new Handler();
+        Runnable runable = new Runnable() {
+
+            @Override
+            public void run() {
+                getLoaderManager().restartLoader(0,null,PoliticsFragment.this);
+                handler.postDelayed(this, 1000);
+                recyclerViewAdapter.notifyDataSetChanged();
+            }
+        };
+        handler.postDelayed(runable, 1000);
         return v;
 
     }

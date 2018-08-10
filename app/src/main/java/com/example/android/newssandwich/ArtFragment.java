@@ -1,6 +1,7 @@
 package com.example.android.newssandwich;
 
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.LoaderManager;
 
 import android.os.Bundle;
@@ -46,6 +47,17 @@ public class ArtFragment extends Fragment implements LoaderManager.LoaderCallbac
 
         recyclerView.setAdapter(recyclerViewAdapter);
         getLoaderManager().initLoader(0,null,this);
+        final Handler handler = new Handler();
+        Runnable runable = new Runnable() {
+
+            @Override
+            public void run() {
+                getLoaderManager().restartLoader(0,null,ArtFragment.this);
+                handler.postDelayed(this, 1000);
+                recyclerViewAdapter.notifyDataSetChanged();
+            }
+        };
+        handler.postDelayed(runable, 1000);
         return v;
 
     }

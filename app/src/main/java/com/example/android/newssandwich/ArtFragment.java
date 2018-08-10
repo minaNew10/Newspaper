@@ -1,5 +1,6 @@
 package com.example.android.newssandwich;
 
+import android.net.Uri;
 import android.support.v4.app.LoaderManager;
 
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +29,10 @@ import java.util.List;
 
 public class ArtFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<ItemNews>> {
     private static final String TAG = "ArtFragment";
-    String url = "https://content.guardianapis.com/artanddesign?api-key=b70d4f5d-e00b-44c3-8d15-6c700f643073";
+//    private static final String url = "https://content.guardianapis.com/artanddesign?api-key=b70d4f5d-e00b-44c3-8d15-6c700f643073";
+    private static final String GUARDIAN_URL = "https://content.guardianapis.com";
     RecyclerView recyclerView;
+
     List<ItemNews> news = new ArrayList<>();
     RecyclerViewAdapter recyclerViewAdapter;
 
@@ -50,7 +54,13 @@ public class ArtFragment extends Fragment implements LoaderManager.LoaderCallbac
     @NonNull
     @Override
     public Loader<List<ItemNews>> onCreateLoader(int id, @Nullable Bundle args) {
-        return new NewsLoader(this.getActivity(),url);
+        Uri baseUrl = Uri.parse(GUARDIAN_URL);
+        Uri.Builder uriBuilder = baseUrl.buildUpon();
+        uriBuilder.appendPath("artanddesign");
+        uriBuilder.appendQueryParameter("api-key","b70d4f5d-e00b-44c3-8d15-6c700f643073");
+
+        Log.i(TAG, "onCreateLoader: " + uriBuilder.toString());
+        return new NewsLoader(this.getActivity(),uriBuilder.toString());
     }
 
     @Override

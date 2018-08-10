@@ -1,5 +1,6 @@
 package com.example.android.newssandwich;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,7 +23,8 @@ import java.util.List;
 
 public class RecentFragment extends Fragment  implements LoaderManager.LoaderCallbacks<List<ItemNews>> {
     private static final String TAG = "RecentFragment";
-    String url = "https://content.guardianapis.com/search?api-key=b70d4f5d-e00b-44c3-8d15-6c700f643073";
+//    String url = "https://content.guardianapis.com/search?api-key=b70d4f5d-e00b-44c3-8d15-6c700f643073";
+    private static final String GUARDIAN_URL = "https://content.guardianapis.com";
     RecyclerView recyclerView;
     List<ItemNews> news = new ArrayList<>();
     RecyclerViewAdapter recyclerViewAdapter;
@@ -45,7 +47,12 @@ public class RecentFragment extends Fragment  implements LoaderManager.LoaderCal
     @NonNull
     @Override
     public Loader<List<ItemNews>> onCreateLoader(int id, @Nullable Bundle args) {
-        return new NewsLoader(this.getActivity(),url);
+        Uri baseUrl = Uri.parse(GUARDIAN_URL);
+        Uri.Builder uriBuilder = baseUrl.buildUpon();
+        uriBuilder.appendPath("search");
+        uriBuilder.appendQueryParameter("api-key","b70d4f5d-e00b-44c3-8d15-6c700f643073");
+
+        return new NewsLoader(this.getActivity(),uriBuilder.toString());
     }
 
     @Override

@@ -115,13 +115,18 @@ public class QueryUtils {
             JSONArray results= response.getJSONArray("results");
             for (int i = 0,n=results.length(); i < n;i++) {
                 JSONObject newsObject = results.getJSONObject(i);
+
                 String title = newsObject.getString("webTitle");
-                Log.i(TAG, "extractFeedNewsFromJson: title"+title);
+
                 String url = newsObject.getString("webUrl");
-                Log.i(TAG, "extractFeedNewsFromJson: url "+url);
                 String section = newsObject.getString("sectionName");
-                Log.i(TAG, "extractFeedNewsFromJson: section "+section);
-                ItemNews itemNews = new ItemNews(title,section,url);
+
+                String date = newsObject.getString("webPublicationDate");
+
+                JSONObject fields = newsObject.getJSONObject("fields");
+                String author = fields.getString("byline");
+
+                ItemNews itemNews = new ItemNews(title,section,url,author,date,null);
                 newsList.add(itemNews);
             }
         } catch (JSONException e) {

@@ -8,24 +8,24 @@
 
     <TextView
         android:id="@+id/txtv_title"
+        style="@style/Title_txtv_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/Title_txtv_style"
+        app:layout_constraintBottom_toTopOf="@+id/txtv_section"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-        app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="texdfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" />
+        app:layout_constraintStart_toEndOf="@id/imgvThumbnail"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtv_section"
+        style="@style/section_txtv_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/section_txtv_style"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-        app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/txtv_title"
-        tools:text="texdfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/imgvThumbnail"
+        app:layout_constraintTop_toBottomOf="@id/txtv_title" />
 
     <android.support.constraint.Guideline
         android:id="@+id/left_guideline"
@@ -43,5 +43,35 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_end="16dp" />
+
+    <TextView
+        android:id="@+id/txtvAuthorName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/txtvDate"
+        app:layout_constraintStart_toEndOf="@id/imgvThumbnail"
+        app:layout_constraintTop_toBottomOf="@+id/txtv_section"
+        tools:text="TextView" />
+
+    <TextView
+        android:id="@+id/txtvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/txtv_section"
+        tools:text="TextView" />
+
+    <ImageView
+        android:id="@+id/imgvThumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
 
 </android.support.constraint.ConstraintLayout>

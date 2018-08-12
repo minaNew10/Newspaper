@@ -43,6 +43,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
 
             }
         });
+        holder.txtvAuthorName.setText(itemNews.getmAuthor());
+        String date = itemNews.getmDate();
+        String[] dateAndTime = date.split("T");
+        holder.txtvDate.setText(dateAndTime[0]);
+
 
     }
 

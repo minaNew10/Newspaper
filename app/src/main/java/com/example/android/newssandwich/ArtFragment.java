@@ -72,6 +72,7 @@ public class ArtFragment extends Fragment implements LoaderManager.LoaderCallbac
         Uri.Builder uriBuilder = baseUrl.buildUpon();
         uriBuilder.appendPath("artanddesign");
         uriBuilder.appendQueryParameter("api-key","b70d4f5d-e00b-44c3-8d15-6c700f643073");
+        uriBuilder.appendQueryParameter("show-fields","all");
 
         Log.i(TAG, "onCreateLoader: " + uriBuilder.toString());
         return new NewsLoader(this.getActivity(),uriBuilder.toString());

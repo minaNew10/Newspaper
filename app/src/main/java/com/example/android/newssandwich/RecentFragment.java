@@ -65,6 +65,7 @@ public class RecentFragment extends Fragment  implements LoaderManager.LoaderCal
         Uri.Builder uriBuilder = baseUrl.buildUpon();
         uriBuilder.appendPath("search");
         uriBuilder.appendQueryParameter("api-key","b70d4f5d-e00b-44c3-8d15-6c700f643073");
+        uriBuilder.appendQueryParameter("show-fields","all");
 
         return new NewsLoader(this.getActivity(),uriBuilder.toString());
     }

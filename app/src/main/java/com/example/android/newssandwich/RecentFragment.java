@@ -45,9 +45,11 @@ public class RecentFragment extends Fragment  implements LoaderManager.LoaderCal
 
             @Override
             public void run() {
-                getLoaderManager().restartLoader(0,null,RecentFragment.this);
-                handler.postDelayed(this, 1000);
-                recyclerViewAdapter.notifyDataSetChanged();
+                if(isAdded()) {
+                    getLoaderManager().restartLoader(0, null, RecentFragment.this);
+                    recyclerViewAdapter.notifyDataSetChanged();
+                    handler.postDelayed(this, 1000);
+                }
             }
         };
         handler.postDelayed(runable, 1000);

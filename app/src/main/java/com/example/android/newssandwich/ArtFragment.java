@@ -52,9 +52,11 @@ public class ArtFragment extends Fragment implements LoaderManager.LoaderCallbac
 
             @Override
             public void run() {
-                getLoaderManager().restartLoader(0,null,ArtFragment.this);
-                handler.postDelayed(this, 1000);
-                recyclerViewAdapter.notifyDataSetChanged();
+                if(isAdded()) {
+                    getLoaderManager().restartLoader(0, null, ArtFragment.this);
+                    recyclerViewAdapter.notifyDataSetChanged();
+                    handler.postDelayed(this, 1000);
+                }
             }
         };
         handler.postDelayed(runable, 1000);

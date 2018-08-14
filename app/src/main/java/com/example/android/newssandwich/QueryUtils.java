@@ -115,18 +115,27 @@ public class QueryUtils {
             JSONArray results= response.getJSONArray("results");
             for (int i = 0,n=results.length(); i < n;i++) {
                 JSONObject newsObject = results.getJSONObject(i);
+                String title = null,
+                        url= null,
+                        section= null,
+                        date= null,
+                        author= null;
+                JSONObject fields;
+                if(newsObject.has("webTitle"))
+                     title = newsObject.getString("webTitle");
+                if(newsObject.has("webUrl"))
+                     url = newsObject.getString("webUrl");
+                if(newsObject.has("sectionName"))
+                     section = newsObject.getString("sectionName");
+                if(newsObject.has("webPublicationDate"))
+                     date = newsObject.getString("webPublicationDate");
+                if(newsObject.has("fields")) {
+                    fields = newsObject.getJSONObject("fields");
+                    if (fields.has("byline"))
+                        author = fields.getString("byline");
+                }
 
-                String title = newsObject.getString("webTitle");
-
-                String url = newsObject.getString("webUrl");
-                String section = newsObject.getString("sectionName");
-
-                String date = newsObject.getString("webPublicationDate");
-
-                JSONObject fields = newsObject.getJSONObject("fields");
-                String author = fields.getString("byline");
-
-                ItemNews itemNews = new ItemNews(title,section,url,author,date,null);
+                ItemNews itemNews = new ItemNews(title,section,url,author,date);
                 newsList.add(itemNews);
             }
         } catch (JSONException e) {

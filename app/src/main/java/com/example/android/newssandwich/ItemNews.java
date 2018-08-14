@@ -9,20 +9,20 @@ public class ItemNews {
 
     private String mAuthor;
     private String mDate;
-    private Bitmap mThumbnail;
+
 
     public ItemNews(String mTitle, String mSection, String mUrl) {
         this.mTitle = mTitle;
         this.mSection = mSection;
         this.mUrl = mUrl;
     }
-    public ItemNews(String mTitle, String mSection, String mUrl,String author,String date,Bitmap thumbnail) {
+    public ItemNews(String mTitle, String mSection, String mUrl,String author,String date) {
         this.mTitle = mTitle;
         this.mSection = mSection;
         this.mUrl = mUrl;
         this.mDate = date;
         this.mAuthor = author;
-        this.mThumbnail = thumbnail;
+
     }
 
     public String getmTitle() {
@@ -45,7 +45,5 @@ public class ItemNews {
         return mDate;
     }
 
-    public Bitmap getmThumbnail() {
-        return mThumbnail;
-    }
+
 }

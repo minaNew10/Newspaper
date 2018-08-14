@@ -1,5 +1,8 @@
 package com.example.android.newssandwich;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v4.app.LoaderManager;
@@ -16,6 +19,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -34,28 +39,58 @@ public class ArtFragment extends Fragment implements LoaderManager.LoaderCallbac
     private static final String GUARDIAN_URL = "https://content.guardianapis.com";
     RecyclerView recyclerView;
 
-    List<ItemNews> news = new ArrayList<>();
+
     RecyclerViewAdapter recyclerViewAdapter;
+
+    TextView txtvEmptyState;
+    ProgressBar progressBar;
+
+
+    ConnectivityManager connectivityManager;
+    NetworkInfo networkInfo;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.recycler_view,container,false);
-        recyclerViewAdapter = new RecyclerViewAdapter(getContext(),news);
+
         recyclerView = v.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        recyclerView.setAdapter(recyclerViewAdapter);
-        getLoaderManager().initLoader(0,null,this);
+
+
+        txtvEmptyState = v.findViewById(R.id.txtvEmptyState);
+        progressBar = v.findViewById(R.id.loading_spinner);
+
+        connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            progressBar.setVisibility(View.VISIBLE);
+            getLoaderManager().initLoader(0,null,this);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            txtvEmptyState.setVisibility(View.VISIBLE);
+            txtvEmptyState.setText("No internet connection");
+        }
+
         final Handler handler = new Handler();
         Runnable runable = new Runnable() {
 
             @Override
             public void run() {
                 if(isAdded()) {
-                    getLoaderManager().restartLoader(0, null, ArtFragment.this);
-                    recyclerViewAdapter.notifyDataSetChanged();
-                    handler.postDelayed(this, 1000);
+                    if (networkInfo != null && networkInfo.isConnected()) {
+
+                        getLoaderManager().restartLoader(0, null, ArtFragment.this);
+                        if (recyclerViewAdapter != null)
+                            recyclerViewAdapter.notifyDataSetChanged();
+                        handler.postDelayed(this, 1000);
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        txtvEmptyState.setVisibility(View.VISIBLE);
+                        txtvEmptyState.setText("No internet connection");
+                    }
                 }
             }
         };
@@ -80,12 +115,19 @@ public class ArtFragment extends Fragment implements LoaderManager.LoaderCallbac
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<ItemNews>> loader, List<ItemNews> data) {
-        if(data != null){
 
-            recyclerViewAdapter.newsFeed = data;
+        progressBar.setVisibility(View.GONE);
+        if (data == null || data.size() < 1) {
+            txtvEmptyState.setVisibility(View.VISIBLE);
+            txtvEmptyState.setText("No Data Available");
+        } else {
+            txtvEmptyState.setVisibility(View.GONE);
+            recyclerViewAdapter = new RecyclerViewAdapter(this.getActivity(), data);
+
+            recyclerView.setAdapter(recyclerViewAdapter);
+            recyclerViewAdapter.notifyDataSetChanged();
         }
 
-        recyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override

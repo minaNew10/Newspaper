@@ -38,7 +38,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
             public void onClick(View v) {
                 Uri url = Uri.parse(itemNews.getmUrl());
                 Intent intent = new Intent(Intent.ACTION_VIEW,url);
-                context.startActivity(intent);
+                if(intent.resolveActivity(context.getPackageManager())!=null)
+                      context.startActivity(intent);
 
 
             }

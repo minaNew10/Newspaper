@@ -35,6 +35,7 @@ public class PoliticsFragment extends Fragment  implements LoaderManager.LoaderC
     RecyclerView recyclerView;
 
     RecyclerViewAdapter recyclerViewAdapter;
+    List<ItemNews> data = new ArrayList<>();
     TextView txtvEmptyState;
     ProgressBar progressBar;
 
@@ -47,7 +48,11 @@ public class PoliticsFragment extends Fragment  implements LoaderManager.LoaderC
         View v = inflater.inflate(R.layout.recycler_view,container,false);
 
         recyclerView = v.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //to designate that all items in the list will have the same size
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(),data);
+        recyclerView.setAdapter(recyclerViewAdapter);
 
         txtvEmptyState = v.findViewById(R.id.txtvEmptyState);
         progressBar = v.findViewById(R.id.loading_spinner);
@@ -108,10 +113,7 @@ public class PoliticsFragment extends Fragment  implements LoaderManager.LoaderC
             txtvEmptyState.setText("No Data Available");
         } else {
             txtvEmptyState.setVisibility(View.GONE);
-            recyclerViewAdapter = new RecyclerViewAdapter(this.getActivity(), data);
-
-            recyclerView.setAdapter(recyclerViewAdapter);
-            recyclerViewAdapter.notifyDataSetChanged();
+            recyclerViewAdapter.setNewsFeed(data);
         }
     }
 

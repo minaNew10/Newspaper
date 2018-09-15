@@ -35,6 +35,7 @@ public class SportFragment extends Fragment  implements LoaderManager.LoaderCall
     RecyclerView recyclerView;
 
     RecyclerViewAdapter recyclerViewAdapter;
+    List<ItemNews> data = new ArrayList<>();
 
     TextView txtvEmptyState;
     ProgressBar progressBar;
@@ -48,7 +49,11 @@ public class SportFragment extends Fragment  implements LoaderManager.LoaderCall
         View v = inflater.inflate(R.layout.recycler_view,container,false);
 
         recyclerView = v.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        //to designate that all items in the list will have the same size
+        recyclerView.setHasFixedSize(true);
+        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(),data);
+        recyclerView.setAdapter(recyclerViewAdapter);
 
 
         txtvEmptyState = v.findViewById(R.id.txtvEmptyState);
@@ -111,10 +116,7 @@ public class SportFragment extends Fragment  implements LoaderManager.LoaderCall
             txtvEmptyState.setText("No Data Available");
         } else {
             txtvEmptyState.setVisibility(View.GONE);
-            recyclerViewAdapter = new RecyclerViewAdapter(this.getActivity(), data);
-
-            recyclerView.setAdapter(recyclerViewAdapter);
-            recyclerViewAdapter.notifyDataSetChanged();
+            recyclerViewAdapter.setNewsFeed(data);
         }
     }
 

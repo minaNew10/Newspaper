@@ -4,15 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
     Context context;
     List<ItemNews> newsFeed;
 
@@ -56,4 +59,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     public int getItemCount() {
         return newsFeed.size();
     }
+
+    public void setNewsFeed(List<ItemNews> newsFeed) {
+        this.newsFeed = newsFeed;
+        notifyDataSetChanged();
+    }
+
+    public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+        TextView txtvTitle;
+        TextView txtvSection;
+        ConstraintLayout parent;
+        TextView txtvAuthorName;
+        TextView txtvDate;
+        ImageView imgvThumbnail;
+
+        public RecyclerViewHolder(View itemView) {
+            super(itemView);
+            parent = itemView.findViewById(R.id.item_parent);
+            txtvTitle = itemView.findViewById(R.id.txtv_title);
+            txtvSection = itemView.findViewById(R.id.txtv_section);
+            txtvDate = itemView.findViewById(R.id.txtvDate);
+            txtvAuthorName = itemView.findViewById(R.id.txtvAuthorName);
+        }
+    }
+
 }

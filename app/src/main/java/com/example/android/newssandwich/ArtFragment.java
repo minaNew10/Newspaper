@@ -41,6 +41,7 @@ public class ArtFragment extends Fragment implements LoaderManager.LoaderCallbac
 
 
     RecyclerViewAdapter recyclerViewAdapter;
+    List<ItemNews> data = new ArrayList<>();
 
     TextView txtvEmptyState;
     ProgressBar progressBar;
@@ -55,7 +56,11 @@ public class ArtFragment extends Fragment implements LoaderManager.LoaderCallbac
         View v = inflater.inflate(R.layout.recycler_view,container,false);
 
         recyclerView = v.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        //to designate that all items in the list will have the same size
+        recyclerView.setHasFixedSize(true);
+        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(),data);
+        recyclerView.setAdapter(recyclerViewAdapter);
 
 
 
@@ -122,10 +127,7 @@ public class ArtFragment extends Fragment implements LoaderManager.LoaderCallbac
             txtvEmptyState.setText("No Data Available");
         } else {
             txtvEmptyState.setVisibility(View.GONE);
-            recyclerViewAdapter = new RecyclerViewAdapter(this.getActivity(), data);
-
-            recyclerView.setAdapter(recyclerViewAdapter);
-            recyclerViewAdapter.notifyDataSetChanged();
+            recyclerViewAdapter.setNewsFeed(data);
         }
 
     }

@@ -20,6 +20,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class QueryUtils {
     private static final String TAG = "QueryUtils";
     private QueryUtils(){
@@ -54,35 +60,54 @@ public class QueryUtils {
     }
 
     private static String makeHTTPrequest(URL url) throws IOException {
-        String jsonResponse = "";
-
-        if(url == null){
-            return jsonResponse;
-        }
-        HttpURLConnection httpURLConnection = null;
-        InputStream inputStream = null;
+         String jsonResponse = null;
+//
+//        if(url == null){
+//            return jsonResponse;
+//        }
+//        HttpURLConnection httpURLConnection = null;
+//        InputStream inputStream = null;
+//        try {
+//            httpURLConnection = (HttpURLConnection) url.openConnection();
+//            httpURLConnection.setRequestMethod("GET");
+//            httpURLConnection.setReadTimeout(1000);
+//            httpURLConnection.setConnectTimeout(15000);
+//            httpURLConnection.connect();
+//            if(httpURLConnection.getResponseCode() == 200){
+//                inputStream = httpURLConnection.getInputStream();
+//                jsonResponse = readFromInputStream(inputStream);
+//
+//            }else {
+//                Log.e(TAG, "makeHTTPrequest: error in response code" + httpURLConnection.getResponseCode() );
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }finally {
+//            if(httpURLConnection != null)
+//                httpURLConnection.disconnect();
+//            if(inputStream != null)
+//                inputStream.close();
+//        }
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        Response response = null;
         try {
-            httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.setReadTimeout(1000);
-            httpURLConnection.setConnectTimeout(15000);
-            httpURLConnection.connect();
-            if(httpURLConnection.getResponseCode() == 200){
-                inputStream = httpURLConnection.getInputStream();
-                jsonResponse = readFromInputStream(inputStream);
-
-            }else {
-                Log.e(TAG, "makeHTTPrequest: error in response code" + httpURLConnection.getResponseCode() );
+            response = client.newCall(request).execute();
+            Log.i(TAG, "makeHTTPrequest: code " + response.code());
+            if(response.code() == 200){
+                jsonResponse = response.body().string();
             }
-
-        } catch (IOException e) {
+        }catch (IOException e){
             e.printStackTrace();
         }finally {
-            if(httpURLConnection != null)
-                httpURLConnection.disconnect();
-            if(inputStream != null)
-                inputStream.close();
+            if(response != null)
+               response.close();
         }
+
+        Log.i(TAG, "makeHTTPrequest: 0 " + jsonResponse);
         return jsonResponse;
     }
 

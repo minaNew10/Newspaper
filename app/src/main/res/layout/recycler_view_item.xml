@@ -2,15 +2,17 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/item_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp">
 
     <TextView
         android:id="@+id/txtv_title"
         style="@style/Title_txtv_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/txtv_section"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toEndOf="@id/left_guideline"
@@ -21,7 +23,8 @@
         android:id="@+id/txtv_section"
         style="@style/section_txtv_style"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="17dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintHorizontal_bias="0.0"
@@ -53,25 +56,20 @@
         android:layout_marginRight="8dp"
         android:ellipsize="end"
         android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/txtvDate"
         app:layout_constraintStart_toEndOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/txtv_section"
+        app:layout_constraintTop_toTopOf="@+id/txtvDate"
         tools:text="TextView" />
 
     <TextView
         android:id="@+id/txtvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintTop_toBottomOf="@+id/txtv_section"
         tools:text="TextView" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="#dadada"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtvAuthorName"></View>
+
 </android.support.constraint.ConstraintLayout>

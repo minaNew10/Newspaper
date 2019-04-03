@@ -18,11 +18,18 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
     Context context;
     List<ItemNews> newsFeed;
+    boolean isSection = true;
 
     public RecyclerViewAdapter(Context context, List<ItemNews> newsFeed) {
         this.context = context;
         this.newsFeed = newsFeed;
     }
+    public RecyclerViewAdapter(Context context, List<ItemNews> newsFeed,boolean isSection) {
+        this.context = context;
+        this.newsFeed = newsFeed;
+        this.isSection= isSection;
+    }
+
 
     @NonNull
     @Override
@@ -35,7 +42,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         final ItemNews itemNews = newsFeed.get(position);
         holder.txtvTitle.setText(itemNews.getmTitle());
-        holder.txtvSection.setText(itemNews.getmSection());
+        if(!isSection){
+            holder.txtvSection.setText(itemNews.getmSection());
+        }else {
+            holder.txtvSection.setVisibility(View.GONE);
+        }
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

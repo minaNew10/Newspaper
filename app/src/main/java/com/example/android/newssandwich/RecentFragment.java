@@ -11,11 +11,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -46,12 +48,13 @@ public class RecentFragment extends Fragment  implements LoaderManager.LoaderCal
         View v = inflater.inflate(R.layout.recycler_view,container,false);
 
         recyclerView = v.findViewById(R.id.recycler_view);
-        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(),data);
+        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(),data,false);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         //to designate that all items in the list will have the same size
         recyclerView.setHasFixedSize(true);
-
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity().getApplicationContext(), LinearLayout.VERTICAL);
+        recyclerView.addItemDecoration(itemDecoration);
         txtvEmptyState = v.findViewById(R.id.txtvEmptyState);
         progressBar = v.findViewById(R.id.loading_spinner);
 
